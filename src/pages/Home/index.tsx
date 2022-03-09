@@ -17,6 +17,7 @@ import {
     Plus,
     Spread,
     Border,
+    BorderHorizontal,
 } from './styles';
 import { SearchBox } from '../../components/SearchBox';
 
@@ -36,6 +37,7 @@ export function Home() {
                 value={''}
                 onChange={() => {}}
                 />
+                    <BorderHorizontal/>
             </ChatsContainer>
             <Border/>
             <MessageContainer>

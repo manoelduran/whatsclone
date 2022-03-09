@@ -42,10 +42,13 @@ export const Spread = styled.img`
      align-self: center;
     `;
 
-
+export const BorderHorizontal = styled.div`
+width: 540px;
+border: 0.5px solid ${({theme}) => theme.border};
+`;
 export const Border = styled.div`
-width: 1px;
-background:  ${({ theme }) => theme.border};
+
+border: 0.5px solid ${({theme}) => theme.border};
 `;
 export const MessageContainer = styled.div`
 width: 900px ;
