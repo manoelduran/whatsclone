@@ -24,21 +24,28 @@ justify-content: space-between ;
 export const Photo = styled.img`
 border-radius: 50% ;
 `;
-    export const Menu = styled.div`
+export const Menu = styled.div`
     width: 179.5px ;
     height: 70px ;
     display: flex ;
 align-items: center ;
 justify-content: space-between ;
+padding-right: 10px;
     `;
-    export const History = styled.img``;
-    export const Plus = styled.img``;
-    export const Spread = styled.img``;
+export const History = styled.img`
+    align-self: center;
+    `;
+export const Plus = styled.img`
+     align-self: center;
+    `;
+export const Spread = styled.img`
+     align-self: center;
+    `;
 
 
 export const Border = styled.div`
 width: 1px;
-background:  ${({theme}) => theme.border};
+background:  ${({ theme }) => theme.border};
 `;
 export const MessageContainer = styled.div`
 width: 900px ;

@@ -7,6 +7,7 @@ const theme = {
     title: '#000000',
     text: '#252525',
     border: '#5C5C5C',
+    input_text: '#ABABAB',
 };
 
 export default theme;

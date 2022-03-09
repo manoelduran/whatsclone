@@ -18,6 +18,7 @@ import {
     Spread,
     Border,
 } from './styles';
+import { SearchBox } from '../../components/SearchBox';
 
 export function Home() {
     return (
@@ -31,6 +32,10 @@ export function Home() {
                         <Spread  src={SpreadImage}  alt='Spread Image' />
                     </Menu>
                 </MenuContainer>
+                <SearchBox 
+                value={''}
+                onChange={() => {}}
+                />
             </ChatsContainer>
             <Border/>
             <MessageContainer>
