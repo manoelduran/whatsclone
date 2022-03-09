@@ -23,6 +23,7 @@ justify-content: space-between ;
 `;
 export const Photo = styled.img`
 border-radius: 50% ;
+cursor: pointer;
 `;
 export const Menu = styled.div`
     width: 179.5px ;
@@ -33,13 +34,13 @@ justify-content: space-between ;
 padding-right: 10px;
     `;
 export const History = styled.img`
-    align-self: center;
+    cursor: pointer;
     `;
 export const Plus = styled.img`
-     align-self: center;
+    cursor: pointer;
     `;
 export const Spread = styled.img`
-     align-self: center;
+    cursor: pointer;
     `;
 
 export const BorderHorizontal = styled.div`

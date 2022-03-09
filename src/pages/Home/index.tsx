@@ -20,26 +20,28 @@ import {
     BorderHorizontal,
 } from './styles';
 import { SearchBox } from '../../components/SearchBox';
+import { ChatCard } from '../../components/ChatCard';
 
 export function Home() {
     return (
         <Container>
             <ChatsContainer>
                 <MenuContainer>
-                    <Photo src='https://github.com/manoelduran.png'    width={40} height={40} alt='My Image'/>
+                    <Photo src='https://github.com/manoelduran.png' width={40} height={40} alt='My Image' />
                     <Menu>
-                        <History src={HistoryImage}   alt='History Image' />
-                        <Plus src={PlusImage}   alt='Plus Image' />
-                        <Spread  src={SpreadImage}  alt='Spread Image' />
+                        <History src={HistoryImage} alt='History Image' onClick={() => { }} />
+                        <Plus src={PlusImage} alt='Plus Image' onClick={() => { }} />
+                        <Spread src={SpreadImage} alt='Spread Image' onClick={() => { }} />
                     </Menu>
                 </MenuContainer>
-                <SearchBox 
-                value={''}
-                onChange={() => {}}
+                <SearchBox
+                    value={''}
+                    onChange={() => { }}
                 />
-                    <BorderHorizontal/>
+                <BorderHorizontal />
+                <ChatCard />
             </ChatsContainer>
-            <Border/>
+            <Border />
             <MessageContainer>
                 <WhatsPhoto src={WifiImage} width={420} height={400} alt='Wi-Fi connection photo' />
                 <WhatsAlert>Keep your phone connected</WhatsAlert>
