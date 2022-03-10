@@ -16,7 +16,7 @@ import {
 export function ChatCard() {
     return (
         <Container>
-            <Photo src='https://github.com/manoelduran.png'    width={40} height={40} alt='My Image'/>
+            <Photo src='https://github.com/manoelduran.png' width={40} height={40} alt='My Image' />
             <ChatContainer>
                 <InfoContainer>
                     <Name>Nakula Bagchi</Name>

@@ -40,6 +40,13 @@ export function Home() {
                 />
                 <BorderHorizontal />
                 <ChatCard />
+                <ChatCard />
+                <ChatCard />
+                <ChatCard />
+                <ChatCard />
+                <ChatCard />
+                <ChatCard />
+                <ChatCard />
             </ChatsContainer>
             <Border />
             <MessageContainer>
