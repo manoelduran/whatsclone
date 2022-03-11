@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import WifiImage from '../../assets/photo.png';
 import HistoryImage from '../../assets/history.png';
 import PlusImage from '../../assets/plus.png';
@@ -21,8 +21,23 @@ import {
 } from './styles';
 import { SearchBox } from '../../components/SearchBox';
 import { ChatCard } from '../../components/ChatCard';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../services/firebase';
 
 export function Home() {
+    const [chats, setChats] = useState<Chat[]>([] as Chat[]);
+    async function getChats() {
+        const chatsCollection = collection(db, 'chats');
+        const chatSnapshot = await getDocs(chatsCollection);
+        const chatList = chatSnapshot.docs.map(doc => doc.data());
+        setChats(chatList as unknown as Chat[]);
+    };
+    function handleChat(chat: Chat){
+
+    }
+    useEffect(() => {
+        getChats();
+    }, [chats])
     return (
         <Container>
             <ChatsContainer>
@@ -39,14 +54,15 @@ export function Home() {
                     onChange={() => { }}
                 />
                 <BorderHorizontal />
-                <ChatCard />
-                <ChatCard />
-                <ChatCard />
-                <ChatCard />
-                <ChatCard />
-                <ChatCard />
-                <ChatCard />
-                <ChatCard />
+                {chats.map((chat: Chat) => (
+                    <ChatCard 
+                    key={chat.id}
+                    data={chat}
+                    onClick={() => handleChat(chat)}
+                    />
+                ))
+
+                }
             </ChatsContainer>
             <Border />
             <MessageContainer>

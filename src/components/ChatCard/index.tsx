@@ -1,6 +1,5 @@
 import React from 'react';
 import SingleTickImage from '../../assets/singletick.png';
-import DoubletickImage from '../../assets/doubletick.png';
 import CheckedImage from '../../assets/checked.png';
 import {
     Container,
@@ -13,19 +12,26 @@ import {
     LastMessage,
     Time,
 } from './styles';
-export function ChatCard() {
+interface ChatCardProps {
+    data: Chat;
+    onClick: () => void;
+}
+export function ChatCard({ data, onClick }: ChatCardProps) {
     return (
-        <Container>
+        <Container onClick={onClick} >
             <Photo src='https://github.com/manoelduran.png' width={40} height={40} alt='My Image' />
             <ChatContainer>
                 <InfoContainer>
-                    <Name>Nakula Bagchi</Name>
+                    <Name>{data.name}</Name>
                     <MessageContainer>
-                        <Check src={SingleTickImage} />
-                        <LastMessage>just ideas for next time</LastMessage>
+                        {data.cheked ?
+                            <Check src={CheckedImage} />
+                            :
+                            <Check src={SingleTickImage} />}
+                        <LastMessage>{data.lastMessage}</LastMessage>
                     </MessageContainer>
                 </InfoContainer>
-                <Time>01:55 pm</Time>
+                <Time>{data.time}</Time>
             </ChatContainer>
         </Container>
     );

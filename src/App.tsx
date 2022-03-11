@@ -11,7 +11,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Header/>
-      <Splash/>
+      <Home/>
     </ThemeProvider>
   );
 }
