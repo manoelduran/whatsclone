@@ -1,15 +1,16 @@
 interface User {
     id: string;
     name: string;
+    passowrd: string;
     avatar?: string;
+    chats: Chat[];
 }
 
 interface Chat {
     id: string;
-    name: string;
-    avatar?: string;
-    lastMessage: string;
+    authorId: string;
     cheked?: boolean;
-    time: string;
+    name: string;
+    timestemp: string;
     isActive: boolean;
 }

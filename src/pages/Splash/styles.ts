@@ -9,14 +9,41 @@ align-items: center ;
 justify-content: center ;
 `;
 
-export const LoadingBar = styled.div`
+export const InputName = styled.input`
 margin-top: 60px ;
 width: 600px;
-height: 1px ;
+padding: 15px ;
+border-radius: 6px ;
 background: ${({theme}) => theme.border} ;
 `;
 
+export const PasswordInput = styled.input`
+margin-top: 30px ;
+width: 600px;
+padding: 15px ;
+border-radius: 6px ;
+background: ${({theme}) => theme.border} ;
+`;
+
+
 export const Logo = styled.img``;
+
+export const CreateContainer = styled.div`
+margin-top: 18px ;
+width: 600px ;
+display: flex ;
+align-items: center ;
+justify-content: space-between ;
+`;
+
+export const CreateUser = styled.button`
+border: none;
+background: ${({theme}) => theme.withe_background} ;
+`;
+export const RecoverPassword = styled.button`
+border: none;
+background: ${({theme}) => theme.withe_background} ;
+`;
 
 export const Name = styled.h1`
 margin-top: 50px ;
@@ -41,3 +68,6 @@ font-size: 16px ;
 line-height: 20px ;
 color: ${({theme}) => theme.encrypt} ;
 `;
+
+
+

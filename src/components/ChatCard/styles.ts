@@ -10,7 +10,7 @@ display: flex;
 align-items: flex-start;
 justify-content: left;
 padding: 13px ;
-background: ${({isActive, theme}) => isActive ? theme.gray_background : theme.withe_background} ;
+background: ${({isActive, theme}) => isActive  === true? theme.gray_background : theme.withe_background} ;
 `;
 
 export const Photo = styled.img`

@@ -15,14 +15,11 @@ import {
     Video
 } from './styles';
 
-interface ChatScreenProps {
-    messages: string;
-    avatar?: string;
-    name: string;
-}
 
-export function ChatScreen({ messages, avatar, name }: ChatScreenProps) {
+export function ChatRoom() {
     return (
-        <Container></Container>
+        <Container>
+            
+        </Container>
     );
 }

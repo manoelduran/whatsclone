@@ -51,6 +51,8 @@ export const Border = styled.div`
 
 border: 0.5px solid ${({theme}) => theme.border};
 `;
+
+
 export const MessageContainer = styled.div`
 width: 900px ;
 display: flex ;
@@ -73,3 +75,22 @@ font-size: 14px ;
 line-height: 20px ;
 text-align: center ;
 `;
+
+export const Form = styled.form`
+button{
+    margin-top: 16px;
+    width: 100%;
+}
+`;
+
+export const FormInput = styled.input`
+
+height: 50px;
+border: 1px solid ${({theme}) => theme.border};
+background: ${({theme}) => theme.withe_background};
+border-radius: 8px;
+width: 100%;
+padding: 0 16px;
+`;
+
+export const FormButton = styled.button``;
