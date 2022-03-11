@@ -18,7 +18,7 @@ interface ChatCardProps {
 }
 export function ChatCard({ data, onClick }: ChatCardProps) {
     return (
-        <Container onClick={onClick} >
+        <Container onClick={onClick} isActive={data.isActive}  >
             <Photo src='https://github.com/manoelduran.png' width={40} height={40} alt='My Image' />
             <ChatContainer>
                 <InfoContainer>

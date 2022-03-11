@@ -11,4 +11,5 @@ interface Chat {
     lastMessage: string;
     cheked?: boolean;
     time: string;
+    isActive: boolean;
 }

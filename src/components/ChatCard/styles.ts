@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps{
+    isActive: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
 width: 540px;
 display: flex;
 align-items: flex-start;
 justify-content: left;
 padding: 13px ;
+background: ${({isActive, theme}) => isActive ? theme.gray_background : theme.withe_background} ;
 `;
 
 export const Photo = styled.img`
