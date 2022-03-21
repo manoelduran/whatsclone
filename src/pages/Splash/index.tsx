@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import LogoImage from '../../assets/logo.png';
 import LockImage from '../../assets/lock.png';
 import {
@@ -8,27 +8,23 @@ import {
     EncryptContainer,
     Icon,
     EncryptText,
-    InputName,
-    PasswordInput,
-    CreateContainer,
-    CreateUser,
-    RecoverPassword,
     LoginButton
 } from './styles';
-import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { FacebookAuthProvider } from 'firebase/auth';
+import { auth } from '../../services/firebase';
+import { useAuth } from '../../hooks/AuthContext';
 
 
 export function Splash() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const { signIn, createAccount } = useAuth();
-    function handleLogin() {
-        signIn(email, password)
+    const navigate = useNavigate();
+    const { signInWithFacebook, user } = useAuth();
+    async function handleSignInWithFacebook(user: User) {
+        const provider = new FacebookAuthProvider();
+        await signInWithFacebook(auth, provider);
+        navigate(`/${user.email}`);
     };
 
-    function handleCreateUser() {
-        createAccount(email, password)
-    };
     return (
         <Container>
             <Logo src={LogoImage} />
@@ -37,29 +33,9 @@ export function Splash() {
                 <Icon src={LockImage} />
                 <EncryptText>End-to-end encrypted</EncryptText>
             </EncryptContainer>
-            <InputName
-                value={email}
-                placeholder="Email"
-                type="email"
-                onChange={(event) => setEmail(event.target.value)}
-            />
-            <PasswordInput
-                value={password}
-                placeholder="Password"
-                type="password"
-                onChange={(event) => setPassword(event.target.value)}
-            />
-            <LoginButton onClick={handleLogin}>
-                Login
+            <LoginButton onClick={() => handleSignInWithFacebook(user as unknown as User)}>
+                Login with Facebook
             </LoginButton>
-            <CreateContainer>
-                <CreateUser onClick={handleCreateUser}>
-                    Create User
-                </CreateUser>
-                <RecoverPassword>
-                    Recover Password
-                </RecoverPassword>
-            </CreateContainer>
         </Container>
     );
 }

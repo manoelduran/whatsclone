@@ -24,24 +24,32 @@ import {
 } from './styles';
 import { SearchBox } from '../../components/SearchBox';
 import { ChatCard } from '../../components/ChatCard';
-import { collection, getDocs, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { ChatRoom } from '../../components/ChatRoom';
+import { useParams } from 'react-router-dom';
 
 export function Home() {
+    const { email } = useParams() as unknown as HomeParams;
     const [chats, setChats] = useState<Chat[]>([]);
     const [active, setActive] = useState(false);
-    const [name, setName] = useState('');
+    const [loggedUser, setLoggedUser] = useState<User>({} as User);
+    const [chatName, setChatName] = useState('');
+    async function getUser() {
+        const dbUser = await getDoc(doc(db, "users", email));
+        setLoggedUser(dbUser as unknown as User);
+    };
     async function getChats() {
         const chatsCollection = collection(db, 'chats');
         const chatSnapshot = await getDocs(chatsCollection);
         const chatList = chatSnapshot.docs.map(doc => doc.data());
         setChats(chatList as unknown as Chat[]);
     };
+
     async function handleChat(chat: Chat) {
         if (chat.isActive === false) {
             // ENTRAR NO BANCO E ATUALIZAR O IS ACTIVE PARA TRUE
-            await updateDoc(doc(db, "chats", name), {
+            await updateDoc(doc(db, "chats", chatName), {
                 isActive: true
             });
             setActive(true);
@@ -51,33 +59,33 @@ export function Home() {
     async function handleChatFalse(chat: Chat) {
         if (chat.isActive === true) {
             // ENTRAR NO BANCO E ATUALIZAR O IS ACTIVE PARA FALSE
-            await updateDoc(doc(db, "chats", name), {
+            await updateDoc(doc(db, "chats", chatName), {
                 isActive: false
             });
             setActive(false);
         }
     };
-
     async function handleCreateRoom(event: FormEvent) {
         event.preventDefault();
-        await setDoc(doc(db, "chats", name), {
+        await setDoc(doc(db, "chats", chatName), {
             id: new Date(),
             isActive: false,
             authorId: '',
             cheked: false,
-            name,
+            chatName,
             timestemp: ''
         } as unknown as Chat);
     }
 
     useEffect(() => {
         getChats();
+        getUser();
     }, [])
     return (
         <Container>
             <ChatsContainer>
                 <MenuContainer>
-                    <Photo src='https://github.com/manoelduran.png' width={40} height={40} alt='My Image' />
+                    <Photo src={loggedUser.avatar} width={40} height={40} />
                     <Menu>
                         <History src={HistoryImage} alt='History Image' onClick={() => { }} />
                         <Plus src={PlusImage} alt='Plus Image' onClick={() => { }} />
@@ -114,8 +122,8 @@ export function Home() {
                             <FormInput
                                 type="text"
                                 placeholder="Room name"
-                                value={name}
-                                onChange={(event) => setName(event.target.value)}
+                                value={chatName}
+                                onChange={(event) => setChatName(event.target.value)}
                             />
                             <FormButton type="submit">
                                 Create Room
