@@ -45,6 +45,15 @@ border: none;
 background: ${({theme}) => theme.withe_background} ;
 `;
 
+export const LoginButton = styled.button`
+width: 600px ;
+margin-top: 18px ;
+border: none;
+padding: 15px ;
+border-radius: 6px ;
+background: ${({theme}) => theme.header} ;
+`;
+
 export const Name = styled.h1`
 margin-top: 50px ;
 font-size: 20px ;

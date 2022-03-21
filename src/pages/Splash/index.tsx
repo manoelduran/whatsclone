@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LogoImage from '../../assets/logo.png';
 import LockImage from '../../assets/lock.png';
-import { auth, db } from '../../services/firebase';
 import {
     Container,
     Logo,
@@ -14,45 +13,22 @@ import {
     CreateContainer,
     CreateUser,
     RecoverPassword,
+    LoginButton
 } from './styles';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { useAuth } from '../../hooks/useAuth';
 
 
 export function Splash() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    async function createUser() {
-        await createUserWithEmailAndPassword(auth, email, password)
-            .then(async (account) => {
-                await setDoc(doc(db, "users", email), {
-                    id: account.user.uid,
-                    name: email,
-                    passowrd: password,
-                    chats: [],
-                });
-            })
-            .catch((error) => {
-                return console.log(error)
-            });
-    }
+    const { signIn, createAccount } = useAuth();
+    function handleLogin() {
+        signIn(email, password)
+    };
 
-    // async function FacebookPopup() {
-    //     const provider = new FacebookAuthProvider();
-    //     await signInWithRedirect(auth, provider);
-    //     const result = await getRedirectResult(auth);
-    //     if (result) {
-    //         // This is the signed-in user
-    //         const user = result.user;
-    //         // This gives you a Facebook Access Token.
-    //         const credential = FacebookAuthProvider.credentialFromResult(result);
-    //         const token = credential?.accessToken;
-    //         return { user, token }
-    //     }
-    // }
-    // useEffect(() => {
-    //     FacebookPopup()
-    // }, [])
+    function handleCreateUser() {
+        createAccount(email, password)
+    };
     return (
         <Container>
             <Logo src={LogoImage} />
@@ -73,16 +49,17 @@ export function Splash() {
                 type="password"
                 onChange={(event) => setPassword(event.target.value)}
             />
+            <LoginButton onClick={handleLogin}>
+                Login
+            </LoginButton>
             <CreateContainer>
-                <CreateUser onClick={createUser}>
+                <CreateUser onClick={handleCreateUser}>
                     Create User
                 </CreateUser>
                 <RecoverPassword>
                     Recover Password
                 </RecoverPassword>
             </CreateContainer>
-
-
         </Container>
     );
 }
