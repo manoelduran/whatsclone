@@ -33,7 +33,7 @@ export function Splash() {
                 <Icon src={LockImage} />
                 <EncryptText>End-to-end encrypted</EncryptText>
             </EncryptContainer>
-            <LoginButton onClick={() => handleSignInWithFacebook(user as unknown as User)}>
+            <LoginButton onClick={() => handleSignInWithFacebook(user as User)}>
                 Login with Facebook
             </LoginButton>
         </Container>
