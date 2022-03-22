@@ -8,9 +8,7 @@ export const GlobalStyle = createGlobalStyle`
   };
   #root, body, html {
     height: 100vh ;
-    width: 100vw;
-    max-width: 1440px ;
-    max-height: 900px ;
+    width: 100%;
   };
 
   body {
