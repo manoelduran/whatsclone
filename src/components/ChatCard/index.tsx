@@ -23,9 +23,9 @@ export function ChatCard({ data, onClick, isActive}: ChatCardProps) {
             <Photo src='https://github.com/manoelduran.png' width={40} height={40} alt='My Image' />
             <ChatContainer>
                 <InfoContainer>
-                    <Name>Ola</Name>
+                    <Name>{data.chatName}</Name>
                     <MessageContainer>
-                        {data.cheked ?
+                        {data.isActive === true ?
                             <Check src={CheckedImage} />
                             :
                             <Check src={SingleTickImage} />}

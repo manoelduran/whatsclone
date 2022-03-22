@@ -49,7 +49,7 @@ export function Home() {
     async function handleChat(chat: Chat) {
         if (chat.isActive === false) {
             // ENTRAR NO BANCO E ATUALIZAR O IS ACTIVE PARA TRUE
-            await updateDoc(doc(db, "chats", chatName), {
+            await updateDoc(doc(db, "chats", chat.chatName), {
                 isActive: true
             });
             setActive(true);
@@ -59,7 +59,7 @@ export function Home() {
     async function handleChatFalse(chat: Chat) {
         if (chat.isActive === true) {
             // ENTRAR NO BANCO E ATUALIZAR O IS ACTIVE PARA FALSE
-            await updateDoc(doc(db, "chats", chatName), {
+            await updateDoc(doc(db, "chats", chat.chatName), {
                 isActive: false
             });
             setActive(false);
@@ -67,20 +67,23 @@ export function Home() {
     };
     async function handleCreateRoom(event: FormEvent) {
         event.preventDefault();
+        const today = new Date();
         await setDoc(doc(db, "chats", chatName), {
             id: new Date(),
             isActive: false,
-            authorId: '',
+            authorId: loggedUser.id,
             cheked: false,
             chatName,
-            timestemp: ''
+            timestemp: today.getHours() + ":" + today.getMinutes()
         } as unknown as Chat);
+        setChatName('');
     }
-
     useEffect(() => {
-        getChats();
         getUser();
     }, [])
+    useEffect(() => {
+        getChats();
+    }, [active, chats])
     return (
         <Container>
             <ChatsContainer>
