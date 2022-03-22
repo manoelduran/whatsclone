@@ -66,8 +66,8 @@ export const Call = styled.img`
 `;
 
 export const SepareteBorder = styled.div`
-height: 40px ;
-border: 0.5px solid #000000;
+height: 30px ;
+border: 0.5px solid ${({ theme }) => theme.border};
 margin-left:40px ;
 `;
 
@@ -84,5 +84,22 @@ export const Spread = styled.img`
 export const ChatContainer = styled.div`
 width: 100% ;
 height: 100%;
-background: lightyellow ;
+position: relative ;
+
 `;
+
+export const FooterContainer = styled.div`
+height: 70px ;
+padding: 22px 17px ;
+background: ${({ theme }) => theme.gray_background} ;
+display: flex ;
+align-items: center ;
+`;
+    export const Emoticon = styled.img`
+    `;
+    export const Files = styled.img`
+    margin-left: 20px ;
+    `;
+    export const Mic = styled.img`
+        margin-left: 40px ;
+    `;
