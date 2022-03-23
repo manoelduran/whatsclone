@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import VideoPng from '../../assets/video.png';
+import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import BackgroundPng from '../../assets/background.png';
 import CallPng from '../../assets/call.png';
 import MicPng from '../../assets/mic.png';
@@ -31,6 +32,11 @@ import { InputMessage } from "../InputMessage";
 
 
 export function ChatRoom() {
+    const [chosenEmoji, setChosenEmoji] = useState(null);
+
+    const onEmojiClick = (event: any, emojiObject: any) => {
+        setChosenEmoji(emojiObject);
+    };
     return (
         <Container>
             <Header>
@@ -49,15 +55,16 @@ export function ChatRoom() {
                     <Spread src={SpreadPng} width={20} height={4} />
                 </IconsContainer>
             </Header>
-            <ChatContainer style={{backgroundImage: BackgroundPng}}>
+            <ChatContainer style={{ backgroundImage: BackgroundPng }}>
 
             </ChatContainer>
             <FooterContainer>
-                <Emoticon src={EmoticonPng} width={30} height={30} />
+                
+                <Emoticon src={EmoticonPng} width={30} height={30}  />
                 <Files src={FilesPng} width={17.5} height={30} />
                 <InputMessage
                     value=""
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
                 <Mic src={MicPng} width={18} height={28} />
             </FooterContainer>

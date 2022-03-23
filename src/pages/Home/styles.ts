@@ -8,9 +8,11 @@ flex-direction: row ;
 `;
 
 export const ChatsContainer = styled.div`
-width: 540px ;
+width: 40% ;
+max-width: 415px ;
 height: 100vh ;
 background: ${({ theme }) => theme.withe_background} ;
+border-right: 0.5px solid ${({theme}) => theme.border};
 `;
 
 export const MenuContainer = styled.div`
@@ -44,18 +46,9 @@ export const Spread = styled.img`
     cursor: pointer;
     `;
 
-export const BorderHorizontal = styled.div`
-width: 540px;
-border: 0.5px solid ${({theme}) => theme.border};
-`;
-export const Border = styled.div`
-
-border: 0.5px solid ${({theme}) => theme.border};
-`;
-
 
 export const MessageContainer = styled.div`
-width: 900px ;
+width: 60% ;
 display: flex ;
 flex-direction: column;
 align-items: center ;

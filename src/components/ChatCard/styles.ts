@@ -5,12 +5,12 @@ interface ContainerProps{
 }
 
 export const Container = styled.div<ContainerProps>`
-width: 540px;
 display: flex;
 align-items: flex-start;
 justify-content: left;
 padding: 13px ;
 background: ${({isActive, theme}) => isActive  === true? theme.gray_background : theme.withe_background} ;
+border-bottom: 1px solid ${({theme}) => theme.border} ;
 `;
 
 export const Photo = styled.img`
@@ -21,13 +21,12 @@ border: none ;
 `;
 
 export const ChatContainer = styled.div`
-width:447px ;
+width: 100%;
 padding: 0px 12px ;
 padding-bottom: 13px ;
 display: flex ;
 align-items: flex-start;
 justify-content: space-between ;
-border-bottom: 1px solid ${({theme}) => theme.border} ;
 `;
 
 export const InfoContainer = styled.div`

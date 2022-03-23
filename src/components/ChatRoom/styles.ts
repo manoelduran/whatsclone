@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-width: 900px ;
+width: 100%;
 display: flex ;
 flex-direction: column ;
 `;
 
 export const Header = styled.div`
+
 height: 70px ;
 background: ${({ theme }) => theme.gray_background} ;
 display: flex ;
 align-items: center ;
-justify-content: flex-start ;
+justify-content: space-between ;
 
 `;
 
@@ -48,16 +49,15 @@ line-height: 15px ;
 `;
 
 export const IconsContainer = styled.div`
-padding-left: 250px ;
+padding-right: 30px ;
 display: flex ;
 align-items: center ;
-justify-content: center;
+justify-content: flex-start;
 
 `;
 
 export const Video = styled.img`
     cursor: pointer;
- margin-left:40px ;
 `;
 
 export const Call = styled.img`
@@ -82,10 +82,9 @@ export const Spread = styled.img`
 `;
 
 export const ChatContainer = styled.div`
-width: 100% ;
+
 height: 100%;
 position: relative ;
-
 `;
 
 export const FooterContainer = styled.div`
@@ -94,12 +93,13 @@ padding: 22px 17px ;
 background: ${({ theme }) => theme.gray_background} ;
 display: flex ;
 align-items: center ;
+justify-content: space-around ;
 `;
     export const Emoticon = styled.img`
     `;
     export const Files = styled.img`
-    margin-left: 20px ;
+
     `;
     export const Mic = styled.img`
-        margin-left: 40px ;
+    margin-right: 15px ;
     `;

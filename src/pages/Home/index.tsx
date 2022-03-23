@@ -12,8 +12,6 @@ import {
     History,
     Plus,
     Spread,
-    Border,
-    BorderHorizontal,
     MessageContainer,
     WhatsPhoto,
     WhatsAlert,
@@ -65,19 +63,19 @@ export function Home() {
             setActive(false);
         }
     };
-    async function handleCreateRoom(event: FormEvent) {
-        event.preventDefault();
-        const today = new Date();
-        await setDoc(doc(db, "chats", chatName), {
-            id: new Date(),
-            isActive: false,
-            authorId: loggedUser.id,
-            cheked: false,
-            chatName,
-            timestemp: today.getHours() + ":" + today.getMinutes()
-        } as unknown as Chat);
-        setChatName('');
-    }
+    // async function handleCreateRoom(event: FormEvent) {
+    //     event.preventDefault();
+    //     const today = new Date();
+    //     await setDoc(doc(db, "chats", chatName), {
+    //         id: new Date(),
+    //         isActive: false,
+    //         authorId: loggedUser.id,
+    //         cheked: false,
+    //         chatName,
+    //         timestemp: today.getHours() + ":" + today.getMinutes()
+    //     } as unknown as Chat);
+    //     setChatName('');
+    // }
     useEffect(() => {
         getUser();
     }, [])
@@ -99,7 +97,6 @@ export function Home() {
                     value={''}
                     onChange={() => { }}
                 />
-                <BorderHorizontal />
                 {chats.map((chat: Chat) => (
                     <ChatCard
                         key={chat.id}
@@ -110,7 +107,6 @@ export function Home() {
                 ))
                 }
             </ChatsContainer>
-            <Border />
             {active ?
                 <ChatRoom />
                 :
@@ -121,7 +117,7 @@ export function Home() {
                         <WhatsMessage>
                             WhatsApp connects to your phone to sync messages. To reduce data {('\n')} usage, connect your phone to Wi-Fi.
                         </WhatsMessage>
-                        <Form onSubmit={handleCreateRoom}>
+                        {/* <Form onSubmit={handleCreateRoom}>
                             <FormInput
                                 type="text"
                                 placeholder="Room name"
@@ -131,7 +127,7 @@ export function Home() {
                             <FormButton type="submit">
                                 Create Room
                             </FormButton>
-                        </Form>
+                        </Form> */}
                     </MessageContainer>
                 )
             }
