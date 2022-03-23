@@ -17,9 +17,9 @@ interface ChatCardProps {
     isActive: boolean;
     onClick: () => void;
 }
-export function ChatCard({ data, onClick, isActive}: ChatCardProps) {
+export function ChatCard({ data, onClick, isActive }: ChatCardProps) {
     return (
-        <Container onClick={onClick} isActive={isActive}  >
+        <Container onClick={onClick} isActive={data.isActive}  >
             <Photo src='https://github.com/manoelduran.png' width={40} height={40} alt='My Image' />
             <ChatContainer>
                 <InfoContainer>
@@ -29,7 +29,7 @@ export function ChatCard({ data, onClick, isActive}: ChatCardProps) {
                             <Check src={CheckedImage} />
                             :
                             <Check src={SingleTickImage} />}
-                        <LastMessage>ULTIMA MENSAGEM</LastMessage>
+                        <LastMessage>LAST MESSAGE</LastMessage>
                     </MessageContainer>
                 </InfoContainer>
                 <Time>{data.timestemp}</Time>

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
 width: 100% ;
+height: 100vh ;
 display: flex ;
 flex-direction: row ;
 
@@ -10,9 +11,8 @@ flex-direction: row ;
 export const ChatsContainer = styled.div`
 width: 40% ;
 max-width: 415px ;
-height: 100vh ;
 background: ${({ theme }) => theme.withe_background} ;
-border-right: 0.5px solid ${({theme}) => theme.border};
+border-right: 0.5px solid ${({ theme }) => theme.border};
 `;
 
 export const MenuContainer = styled.div`
@@ -48,11 +48,12 @@ export const Spread = styled.img`
 
 
 export const MessageContainer = styled.div`
-width: 60% ;
+width: 100% ;
 display: flex ;
 flex-direction: column;
 align-items: center ;
-margin-top: 100px;
+justify-content: center ;
+
 `;
 export const WhatsPhoto = styled.img`
 `;
@@ -80,8 +81,8 @@ button{
 export const FormInput = styled.input`
 
 height: 50px;
-border: 1px solid ${({theme}) => theme.border};
-background: ${({theme}) => theme.withe_background};
+border: 1px solid ${({ theme }) => theme.border};
+background: ${({ theme }) => theme.withe_background};
 border-radius: 8px;
 width: 100%;
 padding: 0 16px;

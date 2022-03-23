@@ -11,6 +11,7 @@ justify-content: left;
 padding: 13px ;
 background: ${({isActive, theme}) => isActive  === true? theme.gray_background : theme.withe_background} ;
 border-bottom: 1px solid ${({theme}) => theme.border} ;
+cursor: pointer;
 `;
 
 export const Photo = styled.img`
@@ -41,7 +42,8 @@ export const Name = styled.h2``;
 export const MessageContainer = styled.div`
 margin-top: 5px ;
 display: flex ;
-align-items: center;
+align-items: flex-start;
+
 `;
 
 export const Check = styled.img``;

@@ -36,7 +36,7 @@ export function SearchBox({ value, onChange }: SearchBoxProps) {
       <Input
         value={displayValue}
         placeholder="Search or start new chat"
-        type="text"
+        type="search"
         onChange={handleSearchBox}
       />
     </Container>

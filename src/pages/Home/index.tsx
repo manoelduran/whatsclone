@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HistoryImage from '../../assets/history.png';
 import WifiImage from '../../assets/photo.png';
 import PlusImage from '../../assets/plus.png';
@@ -16,13 +16,11 @@ import {
     WhatsPhoto,
     WhatsAlert,
     WhatsMessage,
-    Form,
-    FormInput,
-    FormButton,
+
 } from './styles';
 import { SearchBox } from '../../components/SearchBox';
 import { ChatCard } from '../../components/ChatCard';
-import { collection, getDocs, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc,  updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { ChatRoom } from '../../components/ChatRoom';
 import { useParams } from 'react-router-dom';
@@ -30,9 +28,9 @@ import { useParams } from 'react-router-dom';
 export function Home() {
     const { email } = useParams() as unknown as HomeParams;
     const [chats, setChats] = useState<Chat[]>([]);
-    const [active, setActive] = useState(false);
+    const [activeChat, setActiveChat] = useState({} as Chat);
     const [loggedUser, setLoggedUser] = useState<User>({} as User);
-    const [chatName, setChatName] = useState('');
+    // const [chatName, setChatName] = useState('');
     async function getUser() {
         const dbUser = await getDoc(doc(db, "users", email));
         setLoggedUser(dbUser as unknown as User);
@@ -50,7 +48,10 @@ export function Home() {
             await updateDoc(doc(db, "chats", chat.chatName), {
                 isActive: true
             });
-            setActive(true);
+            setActiveChat({
+                ...activeChat,
+                isActive: true,
+            })
         }
     };
 
@@ -60,7 +61,10 @@ export function Home() {
             await updateDoc(doc(db, "chats", chat.chatName), {
                 isActive: false
             });
-            setActive(false);
+            setActiveChat({
+                ...activeChat,
+                isActive: false,
+            })
         }
     };
     // async function handleCreateRoom(event: FormEvent) {
@@ -81,7 +85,7 @@ export function Home() {
     }, [])
     useEffect(() => {
         getChats();
-    }, [active, chats])
+    }, [activeChat,chats])
     return (
         <Container>
             <ChatsContainer>
@@ -97,27 +101,28 @@ export function Home() {
                     value={''}
                     onChange={() => { }}
                 />
-                {chats.map((chat: Chat) => (
+                {chats.map((chat: Chat, key) => (
                     <ChatCard
-                        key={chat.id}
+                        key={key}
                         data={chat}
-                        isActive={chat.isActive}
-                        onClick={chat.isActive === true ? () => handleChatFalse(chat) : () => handleChat(chat)}
+                        isActive={activeChat.id === chats[key].id}
+                        onClick={activeChat.isActive === true ? () => handleChatFalse(chats[key]) : () => handleChat(chats[key])}
                     />
                 ))
                 }
             </ChatsContainer>
-            {active ?
-                <ChatRoom />
+            {activeChat.isActive === true ?
+                <ChatRoom
+
+                />
                 :
-                (
-                    <MessageContainer>
-                        <WhatsPhoto src={WifiImage} width={420} height={400} alt='Wi-Fi connection photo' />
-                        <WhatsAlert>Keep your phone connected</WhatsAlert>
-                        <WhatsMessage>
-                            WhatsApp connects to your phone to sync messages. To reduce data {('\n')} usage, connect your phone to Wi-Fi.
-                        </WhatsMessage>
-                        {/* <Form onSubmit={handleCreateRoom}>
+                <MessageContainer>
+                    <WhatsPhoto src={WifiImage} width={420} height={400} alt='Wi-Fi connection photo' />
+                    <WhatsAlert>Keep your phone connected</WhatsAlert>
+                    <WhatsMessage>
+                        WhatsApp connects to your phone to sync messages. To reduce data {('\n')} usage, connect your phone to Wi-Fi.
+                    </WhatsMessage>
+                    {/* <Form onSubmit={handleCreateRoom}>
                             <FormInput
                                 type="text"
                                 placeholder="Room name"
@@ -128,8 +133,7 @@ export function Home() {
                                 Create Room
                             </FormButton>
                         </Form> */}
-                    </MessageContainer>
-                )
+                </MessageContainer>
             }
         </Container>
     );

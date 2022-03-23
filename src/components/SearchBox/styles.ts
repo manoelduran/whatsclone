@@ -14,12 +14,13 @@ padding: 14px 18px ;
 `;
 
 export const Input = styled.input`
-width: 510px ;
+flex: 1;
 padding: 14px 54px ;
 border-radius: 50px;
 font-size: 14px ;
 line-height: 17px;
 color: ${({theme}) => theme.input_text} ;
 border: none ;
+outline: none ;
 background: ${({theme}) => theme.gray_background} ;
 `;

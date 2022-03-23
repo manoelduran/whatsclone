@@ -8,6 +8,9 @@ import FilesPng from '../../assets/files.png';
 import EmoticonPng from '../../assets/emoticon.png';
 import SearchPng from '../../assets/Search.png';
 import SpreadPng from '../../assets/spread.png';
+import {AiOutlineSend, AiOutlinePaperClip} from 'react-icons/ai';
+import {FiMic} from 'react-icons/fi';
+import {MdInsertEmoticon} from 'react-icons/md';
 import {
     Photo,
     Call,
@@ -24,19 +27,17 @@ import {
     Video,
     ChatContainer,
     FooterContainer,
-    Emoticon,
-    Files,
-    Mic,
+    InputMessage,
 } from './styles';
-import { InputMessage } from "../InputMessage";
+import { useTheme } from "styled-components";
 
+interface ChatRoomProps {
+    data: Chat;
+}
 
 export function ChatRoom() {
-    const [chosenEmoji, setChosenEmoji] = useState(null);
-
-    const onEmojiClick = (event: any, emojiObject: any) => {
-        setChosenEmoji(emojiObject);
-    };
+    const [message, setMessage] = useState('');
+    const theme = useTheme();
     return (
         <Container>
             <Header>
@@ -59,14 +60,20 @@ export function ChatRoom() {
 
             </ChatContainer>
             <FooterContainer>
-                
-                <Emoticon src={EmoticonPng} width={30} height={30}  />
-                <Files src={FilesPng} width={17.5} height={30} />
+                <MdInsertEmoticon size={30} color={theme.name}  />
+                <AiOutlinePaperClip size={30} color={theme.name} style={{marginLeft: 20}} />
                 <InputMessage
-                    value=""
-                    onChange={() => { }}
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
+                    type='text'
+                    placeholder='Type a message here'
                 />
-                <Mic src={MicPng} width={18} height={28} />
+                {
+                    message.length === 0 ?
+                    <FiMic size={30} color={theme.name} style={{marginLeft: 20}}/>
+                    :
+                    <AiOutlineSend size={30} color={theme.name} style={{marginLeft: 20}}/>
+                }
             </FooterContainer>
         </Container>
     );
