@@ -98,10 +98,8 @@ display: flex ;
 align-items: center ;
 justify-content: flex-start ;
 `;
-    export const Emoticon = styled.img`
-    `;
-    export const Files = styled.img`
-    `;
+
+
 
 export const InputMessage = styled.input`
 flex: 1;
@@ -114,6 +112,19 @@ color: ${({theme}) => theme.text} ;
 border: none ;
 outline: none ;
 background: ${({theme}) => theme.withe_background} ;
+`;
+export const EmojiContainer = styled.div`
+height: 200px ;
+overflow-y: hidden;
+transition: all ease 0.3s ;
+   background: ${({ theme }) => theme.gray_background} ;
+aside.emoji-picker-react {
+   width: auto;
+background: none;
+}
+.emoji-picker-react .emoji-group:before{
+    background: none;
+}
 `;
 
     export const Mic = styled.img`

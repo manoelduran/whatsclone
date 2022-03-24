@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import VideoPng from '../../assets/video.png';
-import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import BackgroundPng from '../../assets/background.png';
 import CallPng from '../../assets/call.png';
-import MicPng from '../../assets/mic.png';
-import FilesPng from '../../assets/files.png';
-import EmoticonPng from '../../assets/emoticon.png';
 import SearchPng from '../../assets/Search.png';
 import SpreadPng from '../../assets/spread.png';
-import {AiOutlineSend, AiOutlinePaperClip} from 'react-icons/ai';
-import {FiMic} from 'react-icons/fi';
-import {MdInsertEmoticon} from 'react-icons/md';
+import EmojiPicker from "emoji-picker-react";
+import { AiOutlineSend, AiOutlinePaperClip } from 'react-icons/ai';
+import { FiMic } from 'react-icons/fi';
+import { MdInsertEmoticon } from 'react-icons/md';
 import {
     Photo,
     Call,
@@ -27,6 +24,7 @@ import {
     Video,
     ChatContainer,
     FooterContainer,
+    EmojiContainer,
     InputMessage,
 } from './styles';
 import { useTheme } from "styled-components";
@@ -37,7 +35,22 @@ interface ChatRoomProps {
 
 export function ChatRoom() {
     const [message, setMessage] = useState('');
+    const [isEmojiOpen, setIsEmojiOpen] = useState(false);
     const theme = useTheme();
+    function handleEmojiClick() {
+
+    };
+    function handleSendMessage(){
+
+    };
+    function handleEmojiOpen() {
+        if (isEmojiOpen === true) {
+            setIsEmojiOpen(false);
+        } else {
+            setIsEmojiOpen(true);
+        }
+    }
+
     return (
         <Container>
             <Header>
@@ -57,10 +70,23 @@ export function ChatRoom() {
                 </IconsContainer>
             </Header>
             <ChatContainer style={{ backgroundImage: BackgroundPng }}>
-
             </ChatContainer>
+            <EmojiContainer
+                style={{ height: isEmojiOpen ? '200px' : '0px' }}
+            >
+                <EmojiPicker
+
+                    disableSearchBar
+                    disableSkinTonePicker
+                    onEmojiClick={handleEmojiClick}
+                />
+            </EmojiContainer>
             <FooterContainer>
-                <MdInsertEmoticon size={30} color={theme.name}  />
+                <MdInsertEmoticon 
+                size={30} 
+                color={isEmojiOpen ? theme.loading : theme.name} 
+                onClick={handleEmojiOpen} 
+                 />
                 <AiOutlinePaperClip size={30} color={theme.name} style={{marginLeft: 20}} />
                 <InputMessage
                     value={message}
@@ -70,10 +96,15 @@ export function ChatRoom() {
                 />
                 {
                     message.length === 0 ?
-                    <FiMic size={30} color={theme.name} style={{marginLeft: 20}}/>
-                    :
-                    <AiOutlineSend size={30} color={theme.name} style={{marginLeft: 20}}/>
-                }
+                        <FiMic size={30} color={theme.name} style={{ marginLeft: 20 }} />
+                        :
+                        <AiOutlineSend 
+                        size={30} 
+                        color={theme.name} 
+                        style={{ marginLeft: 20 }}
+                        onClick={handleSendMessage}
+                        />
+                    }
             </FooterContainer>
         </Container>
     );

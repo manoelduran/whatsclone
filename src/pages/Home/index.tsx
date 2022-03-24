@@ -20,7 +20,7 @@ import {
 } from './styles';
 import { SearchBox } from '../../components/SearchBox';
 import { ChatCard } from '../../components/ChatCard';
-import { collection, getDocs, doc,  updateDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { ChatRoom } from '../../components/ChatRoom';
 import { useParams } from 'react-router-dom';
@@ -51,7 +51,7 @@ export function Home() {
             setActiveChat({
                 ...activeChat,
                 isActive: true,
-            })
+            });
         }
     };
 
@@ -64,7 +64,7 @@ export function Home() {
             setActiveChat({
                 ...activeChat,
                 isActive: false,
-            })
+            });
         }
     };
     // async function handleCreateRoom(event: FormEvent) {
@@ -85,7 +85,7 @@ export function Home() {
     }, [])
     useEffect(() => {
         getChats();
-    }, [activeChat,chats])
+    }, [activeChat.isActive, chats])
     return (
         <Container>
             <ChatsContainer>
@@ -101,19 +101,18 @@ export function Home() {
                     value={''}
                     onChange={() => { }}
                 />
-                {chats.map((chat: Chat, key) => (
+                {chats.map((chat: Chat) => (
                     <ChatCard
-                        key={key}
+                        key={chat.id}
                         data={chat}
-                        isActive={activeChat.id === chats[key].id}
-                        onClick={activeChat.isActive === true ? () => handleChatFalse(chats[key]) : () => handleChat(chats[key])}
+                        isActive={chat.isActive}
+                        onClick={chat.isActive === true ? () =>handleChatFalse(chat) : () =>handleChat(chat) }
                     />
                 ))
                 }
             </ChatsContainer>
             {activeChat.isActive === true ?
                 <ChatRoom
-
                 />
                 :
                 <MessageContainer>
