@@ -16,7 +16,6 @@ import {
     WhatsPhoto,
     WhatsAlert,
     WhatsMessage,
-
 } from './styles';
 import { SearchBox } from '../../components/SearchBox';
 import { ChatCard } from '../../components/ChatCard';
@@ -24,15 +23,17 @@ import { collection, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore'
 import { db } from '../../services/firebase';
 import { ChatRoom } from '../../components/ChatRoom';
 import { useParams } from 'react-router-dom';
+import { NewChat } from '../../components/NewChat';
 
 export function Home() {
-    const { email } = useParams() as unknown as HomeParams;
+    const { user } = useParams() as unknown as HomeParams;
     const [chats, setChats] = useState<Chat[]>([]);
     const [activeChat, setActiveChat] = useState({} as Chat);
+    const [openModal, setOpenModal] = useState(false);
     const [loggedUser, setLoggedUser] = useState<User>({} as User);
     // const [chatName, setChatName] = useState('');
     async function getUser() {
-        const dbUser = await getDoc(doc(db, "users", email));
+        const dbUser = await getDoc(doc(db, "users", user.email));
         setLoggedUser(dbUser as unknown as User);
     };
     async function getChats() {
@@ -41,6 +42,10 @@ export function Home() {
         const chatList = chatSnapshot.docs.map(doc => doc.data());
         setChats(chatList as unknown as Chat[]);
     };
+
+    function handleOpenModal() {
+        setOpenModal(true);
+    }
 
     async function handleChat(chat: Chat) {
         if (chat.isActive === false) {
@@ -82,37 +87,50 @@ export function Home() {
     // }
     useEffect(() => {
         getUser();
-    }, [])
+    }, [user])
     useEffect(() => {
         getChats();
     }, [activeChat.isActive, chats])
     return (
         <Container>
             <ChatsContainer>
-                <MenuContainer>
-                    <Photo src={loggedUser.avatar} width={40} height={40} />
-                    <Menu>
-                        <History src={HistoryImage} alt='History Image' onClick={() => { }} />
-                        <Plus src={PlusImage} alt='Plus Image' onClick={() => { }} />
-                        <Spread src={SpreadImage} alt='Spread Image' onClick={() => { }} />
-                    </Menu>
-                </MenuContainer>
-                <SearchBox
-                    value={''}
-                    onChange={() => { }}
-                />
-                {chats.map((chat: Chat) => (
-                    <ChatCard
-                        key={chat.id}
-                        data={chat}
-                        isActive={chat.isActive}
-                        onClick={chat.isActive === true ? () =>handleChatFalse(chat) : () =>handleChat(chat) }
+                {openModal ?
+                    <NewChat
+                        modal={openModal}
+                        setModal={setOpenModal}
+                        user={user}
+                        chatList={chats}
                     />
-                ))
+
+                    :
+                    <>
+                        <MenuContainer>
+                            <Photo src={loggedUser.avatar} width={40} height={40} />
+                            <Menu>
+                                <History src={HistoryImage} alt='History Image' onClick={() => { }} />
+                                <Plus src={PlusImage} alt='Plus Image' onClick={handleOpenModal} />
+                                <Spread src={SpreadImage} alt='Spread Image' onClick={() => { }} />
+                            </Menu>
+                        </MenuContainer>
+                        <SearchBox
+                            value={''}
+                            onChange={() => { }}
+                        />
+                        {chats.map((chat: Chat) => (
+                            <ChatCard
+                                key={chat.id}
+                                data={chat}
+                                isActive={chat.isActive}
+                                onClick={chat.isActive === true ? () => handleChatFalse(chat) : () => handleChat(chat)}
+                            />
+                        ))
+                        }
+                    </>
                 }
             </ChatsContainer>
             {activeChat.isActive === true ?
                 <ChatRoom
+                    user={loggedUser}
                 />
                 :
                 <MessageContainer>

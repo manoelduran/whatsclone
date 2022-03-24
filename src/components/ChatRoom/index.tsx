@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import VideoPng from '../../assets/video.png';
 import BackgroundPng from '../../assets/background.png';
 import CallPng from '../../assets/call.png';
-import SearchPng from '../../assets/Search.png';
+import RoomSearchPng from '../../assets/Roomsearch.png';
 import SpreadPng from '../../assets/spread.png';
 import EmojiPicker from "emoji-picker-react";
 import { AiOutlineSend, AiOutlinePaperClip } from 'react-icons/ai';
@@ -28,19 +28,41 @@ import {
     InputMessage,
 } from './styles';
 import { useTheme } from "styled-components";
+import { MessageItem } from "../MessageItem";
 
-interface ChatRoomProps {
-    data: Chat;
+interface ChatRoomProps{
+    user: User;
 }
 
-export function ChatRoom() {
-    const [message, setMessage] = useState('');
+export function ChatRoom({user}: ChatRoomProps) {
+    const body = useRef<any>();
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState<Message[]>([
+        { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
+        { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
+        { message: 'Ola chegue mais', time: '21:30', author: '1234' },
+        { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
+        { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
+        { message: 'Ola chegue mais', time: '21:30', author: '1234' },
+        { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
+        { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
+        { message: 'Ola chegue mais', time: '21:30', author: user.id },
+        { message: 'Ola chegue mais', time: '21:30', author: user.id },
+        { message: 'Ola chegue mais', time: '21:30', author: user.id },
+        { message: 'Ola chegue mais', time: '21:30', author: user.id },
+        { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
+        { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
+        { message: 'Ola chegue mais', time: '21:30', author: user.id },
+        { message: 'Ola chegue mais', time: '21:30', author: user.id },
+        { message: 'Ola chegue mais', time: '21:30', author: user.id },
+        { message: 'Ola chegue mais', time: '21:30', author: user.id },
+    ] as Message[]);
     const [isEmojiOpen, setIsEmojiOpen] = useState(false);
     const theme = useTheme();
     function handleEmojiClick() {
 
     };
-    function handleSendMessage(){
+    function handleSendMessage() {
 
     };
     function handleEmojiOpen() {
@@ -50,6 +72,12 @@ export function ChatRoom() {
             setIsEmojiOpen(true);
         }
     }
+
+    useEffect(() => {
+        if(body.current.scrollHeight > body.current.offsetHeight){
+            body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight;
+        }
+    }, [messages])
 
     return (
         <Container>
@@ -65,11 +93,18 @@ export function ChatRoom() {
                     <Video src={VideoPng} width={20} height={15} />
                     <Call src={CallPng} width={20} height={24} />
                     <SepareteBorder />
-                    <Search src={SearchPng} width={20} height={24} />
+                    <Search src={RoomSearchPng} width={20} height={24} />
                     <Spread src={SpreadPng} width={20} height={4} />
                 </IconsContainer>
             </Header>
-            <ChatContainer style={{ backgroundImage: BackgroundPng }}>
+            <ChatContainer ref={body} style={{ backgroundImage: BackgroundPng }}>
+                {messages.map((message, key) => (
+                    <MessageItem
+                        data={message}
+                        key={key}
+                        user={user}
+                    />
+                ))}
             </ChatContainer>
             <EmojiContainer
                 style={{ height: isEmojiOpen ? '200px' : '0px' }}
@@ -82,12 +117,12 @@ export function ChatRoom() {
                 />
             </EmojiContainer>
             <FooterContainer>
-                <MdInsertEmoticon 
-                size={30} 
-                color={isEmojiOpen ? theme.loading : theme.name} 
-                onClick={handleEmojiOpen} 
-                 />
-                <AiOutlinePaperClip size={30} color={theme.name} style={{marginLeft: 20}} />
+                <MdInsertEmoticon
+                    size={30}
+                    color={isEmojiOpen ? theme.loading : theme.name}
+                    onClick={handleEmojiOpen}
+                />
+                <AiOutlinePaperClip size={30} color={theme.name} style={{ marginLeft: 20 }} />
                 <InputMessage
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
@@ -98,13 +133,13 @@ export function ChatRoom() {
                     message.length === 0 ?
                         <FiMic size={30} color={theme.name} style={{ marginLeft: 20 }} />
                         :
-                        <AiOutlineSend 
-                        size={30} 
-                        color={theme.name} 
-                        style={{ marginLeft: 20 }}
-                        onClick={handleSendMessage}
+                        <AiOutlineSend
+                            size={30}
+                            color={theme.name}
+                            style={{ marginLeft: 20 }}
+                            onClick={handleSendMessage}
                         />
-                    }
+                }
             </FooterContainer>
         </Container>
     );

@@ -4,7 +4,7 @@ export const Container = styled.div`
 padding: 8px 16px ;
 display: flex ;
 align-items: center ;
-position: relative ;
+position: relative;
 border-bottom: 0.5px solid ${({theme}) => theme.border};
 `;
 

@@ -7,7 +7,17 @@ interface User {
 }
 
 interface HomeParams {
-    email: string;
+    user: User;
+}
+
+interface ChatRoomParams {
+    id: string;
+}
+
+interface Message {
+    author: string;
+    message: string;
+    time: string;
 }
 
 interface Chat {
