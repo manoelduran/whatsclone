@@ -26,8 +26,9 @@ function AuthProvider({ children }: AuthProviderProps) {
                     id: response.user.uid,
                     email: response.user.email,
                     name: response.user.displayName,
-                    avatar: response.user.photoURL
-                } as User);
+                    avatar: response.user.photoURL,
+                    chats: []
+                } as User, { merge: true });
                 setUser(response.user as unknown as User);
             })
             .catch((err) => {

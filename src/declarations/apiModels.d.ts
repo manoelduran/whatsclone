@@ -21,10 +21,12 @@ interface Message {
 }
 
 interface Chat {
+    users: User[];
+    messages: Message[];
     id: string;
-    authorId: string;
-    cheked?: boolean;
+    image: string;
     chatName: string;
     timestemp: string;
+    lastMessage: string;
     isActive: boolean;
 }

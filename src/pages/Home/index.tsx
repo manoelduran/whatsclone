@@ -36,8 +36,14 @@ export function Home() {
         const dbUser = await getDoc(doc(db, "users", user.email));
         setLoggedUser(dbUser as unknown as User);
     };
-    async function getChats() {
-        const chatsCollection = collection(db, 'chats');
+    // async function getChats() {
+    //     const chatsCollection = collection(db, 'chats');
+    //     const chatSnapshot = await getDocs(chatsCollection);
+    //     const chatList = chatSnapshot.docs.map(doc => doc.data());
+    //     setChats(chatList as unknown as Chat[]);
+    // };
+        async function getChats() {
+        const chatsCollection = collection(db, 'users', user.email);
         const chatSnapshot = await getDocs(chatsCollection);
         const chatList = chatSnapshot.docs.map(doc => doc.data());
         setChats(chatList as unknown as Chat[]);

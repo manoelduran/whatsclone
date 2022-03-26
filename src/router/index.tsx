@@ -4,8 +4,9 @@ import { Splash } from "../pages/Splash";
 function Rotas() {
   return (
     <Routes>
-      <Route path="/" element={<Splash />} />
       <Route path="/:email" element={<Home />} />
+      <Route path="/" element={<Splash />} />
+
     </Routes>
   );
 };
