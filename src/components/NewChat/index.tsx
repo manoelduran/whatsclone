@@ -11,6 +11,7 @@ import {
     UserImage,
     UserName,
 } from './styles';
+import { useAuth } from '../../hooks/AuthContext';
 
 interface NewChatProps {
     modal: boolean;
@@ -19,16 +20,17 @@ interface NewChatProps {
 
 export function NewChat({ modal, setModal }: NewChatProps) {
     const [users, setUsers] = useState<User[]>([] as User[]);
+    const { user } = useAuth();
     async function getUsers() {
         const UserCollection = collection(db, 'users');
         const UserSnapshot = await getDocs(UserCollection);
         const UserList = UserSnapshot.docs.map(doc => doc.data());
         setUsers(UserList as unknown as User[]);
-    };    
+    };
     async function addNewChat(newUserChat: User) {
         const chatName = newUserChat.name;
-        await setDoc(doc(db,"chats", chatName), {
-            chatUsers: [],
+        await setDoc(doc(db, "chats", chatName), {
+            chatUsers: [user?.email, newUserChat.email],
             messages: [],
             chatName,
             image: newUserChat.avatar,
@@ -36,22 +38,22 @@ export function NewChat({ modal, setModal }: NewChatProps) {
             id: new Date(),
             isActive: false,
         } as unknown as Chat);
-        // await updateDoc(doc(db, "users", user.emai), {
-        //     chats: arrayUnion({
-        //         id: new Date(),
-        //         image: newUserChat.avatar,
-        //         chatName: newUserChat.name,
-        //         with: newUserChat.id
-        //     })
-        // });
-        // await updateDoc(doc(db, "users", newUserChat.email), {
-        //     chats: arrayUnion({
-        //         id: new Date(),
-        //         image: user.avatar,
-        //         chatName: user.name,
-        //         with: user.id
-        //     })
-        // });
+        await updateDoc(doc(db, "users", String(user?.email)), {
+            chats: arrayUnion({
+                id: chatName,
+                image: newUserChat.avatar,
+                chatName: newUserChat.name,
+                with: newUserChat.id
+            })
+        });
+        await updateDoc(doc(db, "users", String(newUserChat.email)), {
+            chats: arrayUnion({
+                id: chatName,
+                image: String(user?.avatar),
+                chatName: String(user?.name),
+                with: String(user?.id)
+            })
+        });
         handleClose();
     }
     function handleClose() {
