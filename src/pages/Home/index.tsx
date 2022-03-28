@@ -28,22 +28,16 @@ import { NewChat } from '../../components/NewChat';
 export function Home() {
     const { user } = useParams() as unknown as HomeParams;
     const [chats, setChats] = useState<Chat[]>([]);
+    const [chatSelected, setChatSelected] = useState<Chat>({} as Chat);
     const [activeChat, setActiveChat] = useState({} as Chat);
     const [openModal, setOpenModal] = useState(false);
     const [loggedUser, setLoggedUser] = useState<User>({} as User);
-    // const [chatName, setChatName] = useState('');
     async function getUser() {
         const dbUser = await getDoc(doc(db, "users", user.email));
         setLoggedUser(dbUser as unknown as User);
     };
-    // async function getChats() {
-    //     const chatsCollection = collection(db, 'chats');
-    //     const chatSnapshot = await getDocs(chatsCollection);
-    //     const chatList = chatSnapshot.docs.map(doc => doc.data());
-    //     setChats(chatList as unknown as Chat[]);
-    // };
-        async function getChats() {
-        const chatsCollection = collection(db, 'users', user.email);
+    async function getChats() {
+        const chatsCollection = collection(db, "chats");
         const chatSnapshot = await getDocs(chatsCollection);
         const chatList = chatSnapshot.docs.map(doc => doc.data());
         setChats(chatList as unknown as Chat[]);
@@ -54,6 +48,7 @@ export function Home() {
     }
 
     async function handleChat(chat: Chat) {
+        setChatSelected(chat)
         if (chat.isActive === false) {
             // ENTRAR NO BANCO E ATUALIZAR O IS ACTIVE PARA TRUE
             await updateDoc(doc(db, "chats", chat.chatName), {
@@ -67,6 +62,7 @@ export function Home() {
     };
 
     async function handleChatFalse(chat: Chat) {
+        setChatSelected(chat)
         if (chat.isActive === true) {
             // ENTRAR NO BANCO E ATUALIZAR O IS ACTIVE PARA FALSE
             await updateDoc(doc(db, "chats", chat.chatName), {
@@ -78,19 +74,6 @@ export function Home() {
             });
         }
     };
-    // async function handleCreateRoom(event: FormEvent) {
-    //     event.preventDefault();
-    //     const today = new Date();
-    //     await setDoc(doc(db, "chats", chatName), {
-    //         id: new Date(),
-    //         isActive: false,
-    //         authorId: loggedUser.id,
-    //         cheked: false,
-    //         chatName,
-    //         timestemp: today.getHours() + ":" + today.getMinutes()
-    //     } as unknown as Chat);
-    //     setChatName('');
-    // }
     useEffect(() => {
         getUser();
     }, [user])
@@ -104,8 +87,6 @@ export function Home() {
                     <NewChat
                         modal={openModal}
                         setModal={setOpenModal}
-                        user={user}
-                        chatList={chats}
                     />
 
                     :
@@ -136,7 +117,8 @@ export function Home() {
             </ChatsContainer>
             {activeChat.isActive === true ?
                 <ChatRoom
-                    user={loggedUser}
+                   user={loggedUser}
+                   data={chatSelected}
                 />
                 :
                 <MessageContainer>
@@ -145,17 +127,6 @@ export function Home() {
                     <WhatsMessage>
                         WhatsApp connects to your phone to sync messages. To reduce data {('\n')} usage, connect your phone to Wi-Fi.
                     </WhatsMessage>
-                    {/* <Form onSubmit={handleCreateRoom}>
-                            <FormInput
-                                type="text"
-                                placeholder="Room name"
-                                value={chatName}
-                                onChange={(event) => setChatName(event.target.value)}
-                            />
-                            <FormButton type="submit">
-                                Create Room
-                            </FormButton>
-                        </Form> */}
                 </MessageContainer>
             }
         </Container>

@@ -29,21 +29,19 @@ import {
 } from './styles';
 import { useTheme } from "styled-components";
 import { MessageItem } from "../MessageItem";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
 interface ChatRoomProps{
+    data: Chat;
     user: User;
 }
 
-export function ChatRoom({user}: ChatRoomProps) {
+export function ChatRoom({user, data}: ChatRoomProps) {
     const body = useRef<any>();
     const [message, setMessage] = useState("");
+    const [loggedUser, setLoggedUser] = useState<User>({} as User);
     const [messages, setMessages] = useState<Message[]>([
-        { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
-        { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
-        { message: 'Ola chegue mais', time: '21:30', author: '1234' },
-        { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
-        { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
-        { message: 'Ola chegue mais', time: '21:30', author: '1234' },
         { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
         { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
         { message: 'Ola chegue mais', time: '21:30', author: user.id },
@@ -83,9 +81,9 @@ export function ChatRoom({user}: ChatRoomProps) {
         <Container>
             <Header>
                 <HeaderInfo>
-                    <Photo src='https://github.com/manoelduran.png' width={40} height={40} />
+                    <Photo src={data.image} width={40} height={40} />
                     <NameContainer>
-                        <Name>Name</Name>
+                        <Name>{data.chatName}</Name>
                         <LastTime>last seen today at 12:22pm</LastTime>
                     </NameContainer>
                 </HeaderInfo>

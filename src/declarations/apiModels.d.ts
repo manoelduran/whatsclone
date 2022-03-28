@@ -21,7 +21,7 @@ interface Message {
 }
 
 interface Chat {
-    users: User[];
+    chatUsers: User[];
     messages: Message[];
     id: string;
     image: string;
