@@ -17,6 +17,7 @@ max-width: 90% ;
 export const MessageName = styled.span`
 font-size: 14px ;
 margin: 5px 40px 5px 5px ;
+color: black ;
 `;
 export const MessageDate = styled.span`
 font-size: 11px ;

@@ -29,7 +29,7 @@ export function ChatCard({ data, onClick, isActive }: ChatCardProps) {
                             <Check src={CheckedImage} />
                             :
                             <Check src={SingleTickImage} />}
-                        <LastMessage>LAST MESSAGE</LastMessage>
+                        <LastMessage>{data.lastMessage}</LastMessage>
                     </MessageContainer>
                 </InfoContainer>
                 <Time>{data.timestemp}</Time>

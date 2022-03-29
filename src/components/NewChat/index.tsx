@@ -28,7 +28,7 @@ export function NewChat({ modal, setModal }: NewChatProps) {
         setUsers(UserList as unknown as User[]);
     };
     async function addNewChat(newUserChat: User) {
-        const chatName = newUserChat.name;
+    const chatName = newUserChat.name;
         await setDoc(doc(db, "chats", chatName), {
             chatUsers: [user?.email, newUserChat.email],
             messages: [],

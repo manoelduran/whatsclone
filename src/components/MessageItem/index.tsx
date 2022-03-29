@@ -11,13 +11,13 @@ interface MessageItemProps {
     user: User;
 }
 
-export function MessageItem({ data, user }: MessageItemProps) {
+export function MessageItem({ data, user}: MessageItemProps) {
     return (
         <Container
-        style={{justifyContent: user.id === data.author? 'flex-end' : 'flex-start'}}
+            style={{ justifyContent: user.name ===  data.author? 'flex-end' : 'flex-start' }}
         >
             <MessageContainer
-            style={{backgroundColor: user.id === data.author? '#DCF8C6' : '#FFF'}}
+                style={{ backgroundColor: user.name === data.author ? '#DCF8C6' : '#FFF' }}
             >
                 <MessageName>{data.message}</MessageName>
                 <MessageDate>{data.time}</MessageDate>

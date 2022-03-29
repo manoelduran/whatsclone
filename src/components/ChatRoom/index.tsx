@@ -29,39 +29,37 @@ import {
 } from './styles';
 import { useTheme } from "styled-components";
 import { MessageItem } from "../MessageItem";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
-interface ChatRoomProps{
+
+interface ChatRoomProps {
     data: Chat;
     user: User;
 }
 
-export function ChatRoom({user, data}: ChatRoomProps) {
+export function ChatRoom({ user, data }: ChatRoomProps) {
     const body = useRef<any>();
     const [message, setMessage] = useState("");
-    const [loggedUser, setLoggedUser] = useState<User>({} as User);
-    const [messages, setMessages] = useState<Message[]>([
-        { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
-        { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
-        { message: 'Ola chegue mais', time: '21:30', author: user.id },
-        { message: 'Ola chegue mais', time: '21:30', author: user.id },
-        { message: 'Ola chegue mais', time: '21:30', author: user.id },
-        { message: 'Ola chegue mais', time: '21:30', author: user.id },
-        { message: 'Ola chegue mais', time: '20:30', author: '123 '}, 
-        { message: 'Ola chegue mais', time: '22:30', author: '123' }, 
-        { message: 'Ola chegue mais', time: '21:30', author: user.id },
-        { message: 'Ola chegue mais', time: '21:30', author: user.id },
-        { message: 'Ola chegue mais', time: '21:30', author: user.id },
-        { message: 'Ola chegue mais', time: '21:30', author: user.id },
-    ] as Message[]);
+    const [messagesScreen, setMessagesScreen] = useState<Message[]>([]);
     const [isEmojiOpen, setIsEmojiOpen] = useState(false);
     const theme = useTheme();
-    function handleEmojiClick() {
-
+    async function getMessages() {
+        const docRef = doc(db, "chats", data.chatName);
+        const doctSnapshot = await getDoc(docRef);
+        if (doctSnapshot.exists()) {
+            const data = doctSnapshot.data() as unknown as Chat;
+            setMessagesScreen(data.messages);
+        }
     };
-    function handleSendMessage() {
-
+    async function handleSendMessage() {
+        await updateDoc(doc(db, "chats", data.chatName), {
+            messages: [
+                ...data.messages,
+                message
+            ],
+            lastMessage: message
+        })
     };
     function handleEmojiOpen() {
         if (isEmojiOpen === true) {
@@ -70,12 +68,14 @@ export function ChatRoom({user, data}: ChatRoomProps) {
             setIsEmojiOpen(true);
         }
     }
-
     useEffect(() => {
-        if(body.current.scrollHeight > body.current.offsetHeight){
+        getMessages();
+    }, [messagesScreen, message])
+    useEffect(() => {
+        if (body.current.scrollHeight > body.current.offsetHeight) {
             body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight;
         }
-    }, [messages])
+    }, [messagesScreen])
 
     return (
         <Container>
@@ -84,7 +84,6 @@ export function ChatRoom({user, data}: ChatRoomProps) {
                     <Photo src={data.image} width={40} height={40} />
                     <NameContainer>
                         <Name>{data.chatName}</Name>
-                        <LastTime>last seen today at 12:22pm</LastTime>
                     </NameContainer>
                 </HeaderInfo>
                 <IconsContainer>
@@ -96,7 +95,7 @@ export function ChatRoom({user, data}: ChatRoomProps) {
                 </IconsContainer>
             </Header>
             <ChatContainer ref={body} style={{ backgroundImage: BackgroundPng }}>
-                {messages.map((message, key) => (
+                {messagesScreen.map((message, key) => (
                     <MessageItem
                         data={message}
                         key={key}
@@ -111,7 +110,7 @@ export function ChatRoom({user, data}: ChatRoomProps) {
 
                     disableSearchBar
                     disableSkinTonePicker
-                    onEmojiClick={handleEmojiClick}
+                    onEmojiClick={() => {}}
                 />
             </EmojiContainer>
             <FooterContainer>
