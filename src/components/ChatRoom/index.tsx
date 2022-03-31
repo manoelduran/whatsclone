@@ -15,7 +15,6 @@ import {
     Header,
     HeaderInfo,
     IconsContainer,
-    LastTime,
     Name,
     NameContainer,
     Search,
@@ -29,7 +28,7 @@ import {
 } from './styles';
 import { useTheme } from "styled-components";
 import { MessageItem } from "../MessageItem";
-import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
 
@@ -53,11 +52,15 @@ export function ChatRoom({ user, data }: ChatRoomProps) {
         }
     };
     async function handleSendMessage() {
+        let hour = new Date();
         await updateDoc(doc(db, "chats", data.chatName), {
-            messages: [
-                ...data.messages,
-                message
-            ],
+            messages: arrayUnion(
+                {
+                    author: user.uid,
+                    message,
+                    time: hour,
+                }
+            ),
             lastMessage: message
         })
     };
@@ -70,7 +73,7 @@ export function ChatRoom({ user, data }: ChatRoomProps) {
     }
     useEffect(() => {
         getMessages();
-    }, [messagesScreen, message])
+    }, [messagesScreen])
     useEffect(() => {
         if (body.current.scrollHeight > body.current.offsetHeight) {
             body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight;
@@ -95,9 +98,9 @@ export function ChatRoom({ user, data }: ChatRoomProps) {
                 </IconsContainer>
             </Header>
             <ChatContainer ref={body} style={{ backgroundImage: BackgroundPng }}>
-                {messagesScreen.map((message, key) => (
+                {messagesScreen.map((messageScreen, key) => (
                     <MessageItem
-                        data={message}
+                        data={messageScreen}
                         key={key}
                         user={user}
                     />
@@ -110,7 +113,7 @@ export function ChatRoom({ user, data }: ChatRoomProps) {
 
                     disableSearchBar
                     disableSkinTonePicker
-                    onEmojiClick={() => {}}
+                    onEmojiClick={() => { }}
                 />
             </EmojiContainer>
             <FooterContainer>

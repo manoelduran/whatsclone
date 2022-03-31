@@ -14,7 +14,7 @@ flex-direction: column ;
 padding: 3px ;
 max-width: 90% ;
 `;
-export const MessageName = styled.span`
+export const MessageName = styled.p`
 font-size: 14px ;
 margin: 5px 40px 5px 5px ;
 color: black ;

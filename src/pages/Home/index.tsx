@@ -22,20 +22,16 @@ import { ChatCard } from '../../components/ChatCard';
 import { collection, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { ChatRoom } from '../../components/ChatRoom';
-import { useParams } from 'react-router-dom';
 import { NewChat } from '../../components/NewChat';
 
 export function Home() {
-    const { user } = useParams() as unknown as HomeParams;
+
     const [chats, setChats] = useState<Chat[]>([]);
     const [chatSelected, setChatSelected] = useState<Chat>({} as Chat);
     const [activeChat, setActiveChat] = useState({} as Chat);
     const [openModal, setOpenModal] = useState(false);
-    const [loggedUser, setLoggedUser] = useState<User>({} as User);
-    async function getUser() {
-        const dbUser = await getDoc(doc(db, "users", user.email));
-        setLoggedUser(dbUser as unknown as User);
-    };
+    const [loggedUser, setLoggedUser] = useState<User>(JSON.parse(localStorage.getItem('user')!) ?? null);
+
     async function getChats() {
         const chatsCollection = collection(db, "chats");
         const chatSnapshot = await getDocs(chatsCollection);
@@ -74,9 +70,7 @@ export function Home() {
             });
         }
     };
-    useEffect(() => {
-        getUser();
-    }, [user])
+
     useEffect(() => {
         getChats();
     }, [activeChat.isActive, chats])
@@ -103,9 +97,9 @@ export function Home() {
                             value={''}
                             onChange={() => { }}
                         />
-                        {chats.map((chat: Chat) => (
+                        {chats.map((chat: Chat, key) => (
                             <ChatCard
-                                key={chat.id}
+                                key={key}
                                 data={chat}
                                 isActive={chat.isActive}
                                 onClick={chat.isActive === true ? () => handleChatFalse(chat) : () => handleChat(chat)}
@@ -117,8 +111,8 @@ export function Home() {
             </ChatsContainer>
             {activeChat.isActive === true ?
                 <ChatRoom
-                   user={loggedUser}
-                   data={chatSelected}
+                    user={loggedUser}
+                    data={chatSelected}
                 />
                 :
                 <MessageContainer>

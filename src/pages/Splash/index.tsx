@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LogoImage from '../../assets/logo.png';
 import LockImage from '../../assets/lock.png';
 import {
@@ -24,7 +24,11 @@ export function Splash() {
         await signInWithFacebook(auth, provider);
         navigate(`/${user.email}`);
     };
-
+    useEffect(() => {
+        if (user) {
+            navigate(`/${user.email}`);
+        }
+    }, [user])
     return (
         <Container>
             <Logo src={LogoImage} />

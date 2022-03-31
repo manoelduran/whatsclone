@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Auth, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
@@ -22,14 +22,19 @@ function AuthProvider({ children }: AuthProviderProps) {
     async function signInWithFacebook(auth: Auth, provider: FacebookAuthProvider) {
         await signInWithPopup(auth, provider)
             .then(async (response) => {
+                console.log('RESPONSE')
+                console.log(response)
                 await setDoc(doc(db, "users", String(response.user.email)), {
-                    id: response.user.uid,
+                    uid: response.user.uid,
                     email: response.user.email,
                     name: response.user.displayName,
                     avatar: response.user.photoURL,
                     chats: []
                 } as User, { merge: true });
                 setUser(response.user as unknown as User);
+                localStorage.setItem("user", JSON.stringify(response.user));
+                console.log('LOCAL USER')
+                console.log(response.user)
             })
             .catch((err) => {
                 console.log(err.message);
@@ -39,7 +44,26 @@ function AuthProvider({ children }: AuthProviderProps) {
             })
     };
 
-
+useEffect(() => {
+    let isMounted = true;
+    async function loadUserData() {
+        const userCollection = localStorage.getItem("user")
+        const parsedUser = JSON.parse(String(userCollection))
+        console.log('TRY LOGIN')
+        console.log(parsedUser)
+        if (parsedUser) {
+            const userData = parsedUser as unknown as User;
+            if (isMounted) {
+                setUser(userData)
+                setLoading(false);
+            }
+        };
+    };
+    loadUserData();
+    return () => {
+        isMounted = false;
+    };
+}, [])
 
     return (
         <AuthContext.Provider value={{ user, signInWithFacebook }}>

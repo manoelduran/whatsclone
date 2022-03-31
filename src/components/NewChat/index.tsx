@@ -43,7 +43,7 @@ export function NewChat({ modal, setModal }: NewChatProps) {
                 id: chatName,
                 image: newUserChat.avatar,
                 chatName: newUserChat.name,
-                with: newUserChat.id
+                with: newUserChat.uid
             })
         });
         await updateDoc(doc(db, "users", String(newUserChat.email)), {
@@ -51,7 +51,7 @@ export function NewChat({ modal, setModal }: NewChatProps) {
                 id: chatName,
                 image: String(user?.avatar),
                 chatName: String(user?.name),
-                with: String(user?.id)
+                with: String(user?.uid)
             })
         });
         handleClose();
@@ -74,7 +74,7 @@ export function NewChat({ modal, setModal }: NewChatProps) {
             </Header>
             <NewChatList>
                 {users.map((user) => (
-                    <NewChatItem key={user.id} onClick={() => addNewChat(user)}>
+                    <NewChatItem key={user.uid} onClick={() => addNewChat(user)}>
                         <UserImage src={user.avatar} alt={user.name} />
                         <UserName>{user.name} </UserName>
                     </NewChatItem>
