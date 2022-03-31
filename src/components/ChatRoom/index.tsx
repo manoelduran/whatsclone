@@ -62,7 +62,9 @@ export function ChatRoom({ user, data }: ChatRoomProps) {
                 }
             ),
             lastMessage: message
-        })
+        });
+        setMessage("");
+        setIsEmojiOpen(false);
     };
     function handleEmojiOpen() {
         if (isEmojiOpen === true) {
